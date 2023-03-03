@@ -11,12 +11,34 @@ Pour un entier aléatoire entre 0 et 1 il faut donc faire rand() %2
 voir dans la methode main.
 */
 
-
-
-
-
+int grille[9][9];
+int solution[9][9];
+int i, j, v, k, colonneChoisie, ligneChoisie;
 
 // Ecrire la fonction generer(), elle prend en paramètre la grille et renvoie le nombre d'éléments non nuls
+int generer(){
+    int i, j, k, valNulle, nbCaseVide = 0;
+    for(i=0; i<9; i++){
+        for(j=0; j<9; j++){
+            valNulle = rand() %2;
+            if(valNulle == 0){
+                grille[i][j] = 0;
+                nbCaseVide++;
+            }
+        }
+    }
+    printf("GRILLE\n");  
+    printf("---------------------------------\n");              
+    for(i=0; i<9; ++i){
+        for(j=0; j<9; ++j){
+            printf("%d ", grille[i][j]);
+        }
+        printf("\n");
+    }
+    printf("---------------------------------\n\n");  
+    printf("Le nombre de case vide est egal a %d \n\n", nbCaseVide);
+    return 0;
+}
 
 // Ce lien vous sera utile : https://www.geeksforgeeks.org/pass-2d-array-parameter-c/
 
@@ -25,6 +47,54 @@ voir dans la methode main.
 La fonction doit vérifier la validité des indices et de la valeur.
 Si la case n’est pas occupée, la valeur doit être placée dans la grille. remplissage est alors incrémentée*/
 
+int verifierLigneColonne(){
+    int i, j, v, ligneChoisie, colonneChoisie, memeLigne = 0, memeColonne = 0;
+    for(i=0; i<9;i++){
+        for(j=0; j<9;j++){
+            if(grille[i][j] == v){
+                memeLigne++;
+            }
+        }
+        if(grille[i][j] == v){
+            memeColonne++;
+        }
+    }
+    if(memeLigne != 0){
+        printf("Le chiffre est déjà sur la ligne");
+    } else if(memeColonne != 0){
+        printf("Le chiffre est déjà sur la colonne");
+    } else{
+        grille[colonneChoisie][ligneChoisie] = v;
+        printf("\nGRILLE\n");  
+        printf("---------------------------------\n");              
+        for(i=0; i<9; ++i){
+            for(j=0; j<9; ++j){
+                printf("%d ", grille[i][j]);
+            }
+            printf("\n");
+        }
+        printf("---------------------------------\n"); 
+
+    }
+}
+
+int saisir(){
+    int i, j, v, ligneChoisie, colonneChoisie;
+    while(&grille[9][9] != &solution[9][9]){
+        printf("Veuillez saisir la coordonnees (format: vertical horizontal): ");
+        scanf("%d %d", &colonneChoisie, &ligneChoisie);
+        printf("Veuillez saisir la valeur: ");
+        scanf("%d", &v);
+
+        if(grille[i][j] != 0){
+            printf("\nLa case est deja remplie !!\n");
+        } else{
+            verifierLigneColonne();
+        }
+    }
+    
+    return 0;
+}
 
 /*
 Écrire la fonction verifierLigneColonne() qui prend en paramètre un numéro et un sens (HORIZ ou VERT)
@@ -33,10 +103,20 @@ On pourra utiliser un tableau intermédiaire pour vérifier cela. La fonction re
  Les constantes HORIZ de valeur 0 et VERT de valeur 1 sont à définir.
 */
 
+
 /*
 Écrire la fonction verifierRegion() qui prend en paramètre deux indices k et l qui correspondent à la région (k,l)
 et qui renvoie 1 si la région est correctement remplie, 0 sinon.
 */
+// int verifierRegion(){
+//     int k, l, juste = 0, grille[9][9];
+//     for(k=0; k<3;k++){
+//         for(l=0; l<3;l++){
+//             k[j] = grille[i][j];
+//         }
+//     }
+// }
+
 
 //Écrire la fonction verifierGrille() qui renvoie 1 si la grille est correctement remplie et 0 sinon
 
@@ -59,6 +139,7 @@ int main(){
     {
     for(i=0; i<9; ++i)
         solution[j][i] = (i + j*3 +j /3) %9 +1 ; 
+        
     }
     
     for(i=0;i<9; ++i) 
@@ -70,15 +151,18 @@ int main(){
     printf("---------------------------------");  
     printf("\n");  
     //toucher le code entre les commentaires 
-    
-    printf("%d",rand() % 2);
-    
-  
 
-
+    for(i=0;i<9;i++){
+        for(j=0;j<9;j++){
+            grille[i][j] = solution[i][j];
+        }
+    }
+    generer();
+    saisir();
 
     //Ne pas toucher au code ci dessous
     system("pause");
     return 0;
 }
+
 
